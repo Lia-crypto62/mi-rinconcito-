@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mi Rinconcito 🎀</title>
+<style>
+:root {
+  --rosa: #f7b8d2;
+  --fondo: #fff0f6;
+  --lila: #e9ddff;
+  --menta: #d8f5e7;
+  --texto: #60485c;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, var(--fondo), #f4efff, #edfff7);
+  color: var(--texto);
+}
+header {
+  text-align: center;
+  padding: 24px 12px;
+  background: #ffffffdd;
+}
+h1 { margin: 0; }
+nav {
+  display: flex;
+  gap: 7px;
+  overflow-x: auto;
+  padding: 12px;
+  background: #fff9fc;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+button {
+  border: 0;
+  border-radius: 13px;
+  padding: 10px 13px;
+  background: var(--lila);
+  color: var(--texto);
+  font-weight: bold;
+  cursor: pointer;
+}
+nav button { white-space: nowrap; border-radius: 20px; }
+main { max-width: 800px; margin: auto; padding: 12px; }
+section {
+  display: none;
+  background: #ffffffed;
+  padding: 18px;
+  border-radius: 20px;
+  margin: 10px 0;
+  box-shadow: 0 4px 15px #b58aa51c;
+}
+section.active { display: block; }
+.card {
+  background: var(--fondo);
+  padding: 14px;
+  border-radius: 15px;
+  margin: 12px 0;
+}
+.lav { background: #f4efff; }
+.mint { background: #eafff3; }
+label {
+  display: block;
+  margin: 12px 0 5px;
+  font-weight: bold;
+}
+input, textarea, select {
+  width: 100%;
+  padding: 11px;
+  border: 1px solid #e5cadb;
+  border-radius: 11px;
+  font: inherit;
+  background: #fffafd;
+  color: var(--texto);
+}
+textarea { min-height: 85px; }
+.action { background: var(--rosa); margin-top: 10px; }
+li { margin: 9px 0; overflow-wrap: anywhere; }
+.result { white-space: pre-wrap; line-height: 1.5; }
+footer { text-align: center; padding: 22px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>🎀 Mi Rinconcito 🌷</h1>
+  <p>Mi espacio para organizarme y cuidar de mí 💗</p>
+</header>
+
+<nav>
+  <button onclick="go('inicio')">🏠 Inicio</button>
+  <button onclick="go('emociones')">💗 Emociones</button>
+  <button onclick="go('periodo')">🌷 Periodo</button>
+  <button onclick="go('pensamientos')">🧠 Pensamientos</button>
+  <button onclick="go('desayuno')">🥐 Desayuno</button>
+  <button onclick="go('compras')">🛍️ Compras</button>
+  <button onclick="go('tareas')">📅 Tareas</button>
+  <button onclick="go('habitos')">✨ Hábitos</button>
+  <button onclick="go('cuidado')">🌙 Autocuidado</button>
+</nav>
+
+<main>
+<section id="inicio" class="active">
+  <h2>🌸 ¡Bienvenida!</h2>
+  <div class="card">
+    💌 No tienes que hacerlo todo perfectamente.
+    Avanza a tu ritmo y recuerda que mereces cuidarte.
+  </div>
+  <div class="card lav">
+    <h3>📅 Hoy</h3>
+    <p id="fecha"></p>
+  </div>
+  <label for="objetivo">🌷 Mi objetivo de hoy</label>
+  <input id="objetivo" placeholder="¿Qué quiero hacer hoy?">
+  <button class="action" onclick="save('objetivo')">Guardar objetivo</button>
+  <p id="objetivoMsg"></p>
+</section>
+
+<section id="emociones">
+  <h2>💗 ¿Cómo me siento?</h2>
+  <label for="animo">Mi emoción</label>
+  <select id="animo">
+    <option>Feliz 😊</option>
+    <option>Tranquila 🌿</option>
+    <option>Emocionada ✨</option>
+    <option>Triste 🌧️</option>
+    <option>Estresada 🌪️</option>
+    <option>Enojada 🔥</option>
+    <option>Confundida ☁️</option>
+    <option>Cansada 🌙</option>
+    <option>Preocupada 💭</option>
+    <option>No sé 🫧</option>
+  </select>
+  <label for="motivo">¿Qué pasó o qué estoy pensando?</label>
+  <textarea id="motivo" placeholder="Escribe libremente..."></textarea>
+  <label for="intensidad">Intensidad</label>
+  <select id="intensidad">
+    <option>Suave</option>
+    <option>Moderada</option>
+    <option>Intensa</option>
+    <option>No sé</option>
+  </select>
+  <button class="action" onclick="reflect()">Guardar y reflexionar 💗</button>
+  <p id="reflexion" class="result"></p>
+</section>
+
+ 
+<section id="periodo">
+  <h2>🌷 Mi calendario menstrual</h2>
+  <p>Registra tus fechas y cómo te sientes.</p>
+
+  <label for="inicioPeriodo">📅 Primer día del periodo</label>
+  <input type="date" id="inicioPeriodo">
+
+  <label for="finPeriodo">📅 Último día del periodo</label>
+  <input type="date" id="finPeriodo">
+
+  <label for="sintomas">💗 Síntomas o notas</label>
+  <textarea id="sintomas" placeholder="Escribe tus notas..."></textarea>
+
+  <button class="action" onclick="savePeriod()">Guardar registro 🌸</button>
+  <p id="periodoMsg"></p>
+</section>
+
+<section id="pensamientos">
+  <h2>🧠 Mi diario de pensamientos</h2>
+  <p>Un espacio para escribir sin juzgarte.</p>
+
+  <label for="pensamiento">💭 ¿Qué tengo en la mente?</label>
+  <textarea id="pensamiento" placeholder="Escribe lo que quieras..."></textarea>
+
+  <button class="action" onclick="saveThought()">Guardar pensamiento 💌</button>
+
+  <div class="card lav">
+    <h3>🌱 Una reflexión para ti</h3>
+    <p id="reflexionPensamiento">
+      No tienes que resolverlo todo ahora.
+    </p>
+  </div>
+
+  <h3>📖 Mis notas guardadas</h3>
+  <ul id="listaPensamientos"></ul>
+</section>
+
+<section id="desayuno">
+  <h2>🥐 Mi lista de desayunos</h2>
+
+  <label for="comida">🍓 Añadir alimento o idea</label>
+  <input id="comida" placeholder="Ej. avena, fruta, huevos...">
+
+  <button class="action" onclick="addItem('comida','listaDesayuno','desayunos')">
+    Añadir a la lista
+  </button>
+
+  <ul id="listaDesayuno"></ul>
+</section>
+
+<section id="compras">
+  <h2>🛍️ Mi lista de compras</h2>
+
+  <label for="compra">🧺 ¿Qué necesito?</label>
+  <input id="compra" placeholder="Escribe un artículo...">
+
+  <button class="action" onclick="addItem('compra','listaCompras','compras')">
+    Añadir artículo
+  </button>
+
+  <ul id="listaCompras"></ul>
+</section>
+
+<section id="tareas">
+  <h2>📅 Mis tareas</h2>
+
+  <label for="tarea">📝 Nueva tarea</label>
+  <input id="tarea" placeholder="Ej. terminar matemáticas">
+
+  <button class="action" onclick="addItem('tarea','listaTareas','tareas')">
+    Añadir tarea
+  </button>
+
+  <ul id="listaTareas"></ul>
+</section>
+
+<section id="habitos">
+  <h2>✨ Mis hábitos</h2>
+  <p>Marca lo que hayas hecho hoy. ¡Cada pequeño paso cuenta!</p>
+
+  <div class="card mint">
+    <label><input type="checkbox" class="habito"> 💧 Beber agua</label>
+    <label><input type="checkbox" class="habito"> 🪥 Cepillarme los dientes</label>
+    <label><input type="checkbox" class="habito"> 🧴 Cuidar mi piel</label>
+    <label><input type="checkbox" class="habito"> 📚 Dedicar tiempo a estudiar</label>
+    <label><input type="checkbox" class="habito"> 🧹 Organizar un espacio</label>
+    <label><input type="checkbox" class="habito"> 🌿 Tomarme un descanso</label>
+  </div>
+
+  <button class="action" onclick="saveHabits()">Guardar hábitos 💚</button>
+  <p id="habitosMsg"></p>
+</section>
+
+<section id="cuidado">
+  <h2>🌙 Mi autocuidado</h2>
+
+  <div class="card lav">
+    <h3>🌸 Mi rutina suave</h3>
+    <ul>
+      <li>🪥 Cepillarme los dientes.</li>
+      <li>🧴 Lavarme la cara con suavidad.</li>
+      <li>👕 Preparar ropa cómoda.</li>
+      <li>🎒 Revisar mis cosas para mañana.</li>
+      <li>🎵 Escuchar música o descansar.</li>
+      <li>😴 Intentar dormir lo suficiente.</li>
+    </ul>
+  </div>
+
+  <label for="notaCuidado">💌 ¿Qué necesito hoy?</label>
+  <textarea id="notaCuidado" placeholder="Escribe aquí..."></textarea>
+
+  <button class="action" onclick="save('notaCuidado')">
+    Guardar mi nota 💗
+  </button>
+
+  <p id="notaCuidadoMsg"></p>
+</section>
+
+ 
+<footer>
+  Hecho con cariño para mí 💗🌷
+</footer>
+
+<script>
+const $ = id => document.getElementById(id);
+
+function go(id) {
+  document.querySelectorAll("main section").forEach(section => {
+    section.classList.remove("active");
+  });
+  $(id).classList.add("active");
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function save(id) {
+  const value = $(id).value;
+  localStorage.setItem("rinconcito_" + id, value);
+  const message = $(id + "Msg");
+  if (message) message.textContent = "¡Guardado con cariño! 💗";
+}
+
+function reflect() {
+  const emotion = $("animo").value;
+  const reason = $("motivo").value.trim();
+  const intensity = $("intensidad").value;
+
+  let message = "💗 Recuerda tratarte con paciencia. ";
+  if (emotion.includes("Triste")) {
+    message += "Está bien tener días difíciles. Puedes hablar con alguien de confianza.";
+  } else if (emotion.includes("Estresada")) {
+    message += "Prueba hacer una pausa y elegir una sola cosa para atender primero.";
+  } else if (emotion.includes("Enojada")) {
+    message += "Date tiempo para calmarte antes de decidir qué hacer.";
+  } else if (emotion.includes("Preocupada")) {
+    message += "Intenta distinguir lo que puedes resolver ahora de lo que puede esperar.";
+  } else if (emotion.includes("Feliz") || emotion.includes("Emocionada")) {
+    message += "Permítete disfrutar este momento bonito.";
+  } else {
+    message += "No tienes que entender todas tus emociones de inmediato.";
+  }
+
+  message += "\n\nIntensidad: " + intensity + ".";
+  if (reason) message += "\n\nLo que escribiste: " + reason;
+
+  $("reflexion").textContent = message;
+  localStorage.setItem("rinconcito_emocion", emotion);
+  localStorage.setItem("rinconcito_motivo", reason);
+  localStorage.setItem("rinconcito_intensidad", intensity);
+}
+
+function savePeriod() {
+  localStorage.setItem("rinconcito_inicioPeriodo", $("inicioPeriodo").value);
+  localStorage.setItem("rinconcito_finPeriodo", $("finPeriodo").value);
+  localStorage.setItem("rinconcito_sintomas", $("sintomas").value);
+  $("periodoMsg").textContent = "¡Registro guardado! 🌷";
+}
+
+function saveThought() {
+  const thought = $("pensamiento").value.trim();
+  if (!thought) {
+    $("reflexionPensamiento").textContent = "Escribe algo primero y lo guardaremos con cariño 💗";
+    return;
+  }
+
+  const notes = JSON.parse(localStorage.getItem("rinconcito_pensamientos") || "[]");
+  notes.unshift(thought);
+  localStorage.setItem("rinconcito_pensamientos", JSON.stringify(notes));
+
+  $("reflexionPensamiento").textContent =
+    "Gracias por darte un momento para escribir. ¿Qué pequeño paso te ayudaría ahora? 🌱";
+
+  $("pensamiento").value = "";
+  showThoughts();
+}
+
+function showThoughts() {
+  const notes = JSON.parse(localStorage.getItem("rinconcito_pensamientos") || "[]");
+  const list = $("listaPensamientos");
+  list.replaceChildren();
+
+  notes.forEach(note => {
+    const li = document.createElement("li");
+    li.textContent = note;
+    list.appendChild(li);
+  });
+}
+
+function addItem(inputId, listId, storageKey) {
+  const input = $(inputId);
+  const value = input.value.trim();
+  if (!value) {
+    input.focus();
+    return;
+  }
+
+  const items = JSON.parse(localStorage.getItem("rinconcito_" + storageKey) || "[]");
+  items.push(value);
+  localStorage.setItem("rinconcito_" + storageKey, JSON.stringify(items));
+
+  input.value = "";
+  showItems(listId, storageKey);
+}
+
+function showItems(listId, storageKey) {
+  const list = $(listId);
+  const items = JSON.parse(localStorage.getItem("rinconcito_" + storageKey) || "[]");
+  list.replaceChildren();
+
+  items.forEach((item, index) => {
+    const li = document.createElement("li");
+    li.appendChild(document.createTextNode(item + " "));
+
+    const remove = document.createElement("button");
+    remove.textContent = "Quitar";
+    remove.type = "button";
+    remove.onclick = () => {
+      items.splice(index, 1);
+      localStorage.setItem("rinconcito_" + storageKey, JSON.stringify(items));
+      showItems(listId, storageKey);
+    };
+
+    li.appendChild(remove);
+    list.appendChild(li);
+  });
+}
+
+function saveHabits() {
+  const habits = [...document.querySelectorAll(".habito")].map(box => box.checked);
+  localStorage.setItem("rinconcito_habitos", JSON.stringify(habits));
+  $("habitosMsg").textContent = "¡Tus hábitos quedaron guardados! ✨";
+}
+
+function loadSavedData() {
+  [
+    "objetivo", "notaCuidado",
+    "inicioPeriodo", "finPeriodo", "sintomas",
+    "animo", "motivo", "intensidad"
+  ].forEach(id => {
+    const saved = localStorage.getItem("rinconcito_" + id);
+    if (saved !== null && $(id)) $(id).value = saved;
+  });
+
+  ["objetivo", "notaCuidado"].forEach(id => {
+    const message = $(id + "Msg");
+    if (message && localStorage.getItem("rinconcito_" + id) !== null) {
+      message.textContent = "Tu nota está guardada 💗";
+    }
+  });
+
+  const habits = JSON.parse(localStorage.getItem("rinconcito_habitos") || "[]");
+  document.querySelectorAll(".habito").forEach((box, index) => {
+    box.checked = habits[index] || false;
+  });
+
+  showThoughts();
+  showItems("listaDesayuno", "desayunos");
+  showItems("listaCompras", "compras");
+  showItems("listaTareas", "tareas");
+
+  $("fecha").textContent = new Date().toLocaleDateString("es", {
+    weekday: "long", year: "numeric", month: "long", day: "numeric"
+  });
+}
+
+loadSavedData();
+</script>
+</main>
+</body>
+</html>
+ 
